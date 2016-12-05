@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  </head>¨
+  <style>
+    body {
+      margin-top: 40px;
+    }
+  </style>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div id="root">
+            <div class="row">
+              <div class="col-md-6 col-md-offset-3">
+                <form class="form-inline">
+                  <div class="form-group">
+                    <input v-model="newItem" type="text" class="form-control" placeholder="Varans namn">
+                  </div>
+                  <div class="form-group">
+                    <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+                    <div class="input-group">
+                      <div class="input-group-addon">SEK</div>
+                      <input v-model="newItemPrice" type="number" class="form-control" id="exampleInputAmount" placeholder="Pris">
+                    </div>
+                  </div>
+                <button @click="addItem()" class="btn btn-primary">Lägg till</button>
+              </div>
+            </div>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Vara</th>
+                  <th>Pris</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(item, index) in items">
+                  <td>{{ index + 1 }}</td>
+                  <td>{{ item.name }}</td>
+                  <td>{{ item.price }}</td>
+                </tr>
+              </tbody>
+              <tfooter>
+                <tr>
+                  <th>Totalt:</th>
+                  <th></th>
+                  <th>{{ totalPrice }}</th>
+                </tr>
+              </tfooter>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.0/vue.js"></script>
+    <script>
+    let app = new Vue({
+      el: "#root",
+      data: {
+        items: [],
+        newItem: '',
+        newItemPrice: ''
+      },
+
+      methods: {
+        addItem() {
+          let item = {name: this.newItem, price: parseInt(this.newItemPrice) };
+          this.items.push(item);
+          this.newItem = '';
+          this.newItemPrice = '';
+          localStorage.setItem("buy-list", JSON.stringify(this.items));
+          console.log(JSON.parse(localStorage.getItem("buy-list")));
+        }
+      },
+
+      computed: {
+        totalPrice() {
+          if (this.items == undefined || this.items.length <= 0) return
+          return this.items.reduce((sum, n) => sum + n.price, 0);
+        }
+      },
+
+      mounted() {
+        let list = JSON.parse(localStorage.getItem("buy-list"))
+        if (list == undefined) {
+          this.items = []
+        }
+        else {
+          this.items = list
+        }
+      }
+    });
+    </script>
+  </body>
+</html>
