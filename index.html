@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Varan - Din hjälpreda i shoppingkaoset</title>    
+    <title>Varan - Din hjälpreda i shoppingkaoset</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-  </head>¨
+  </head>
   <style>
     body {
       margin-top: 40px;
@@ -35,30 +35,31 @@
                       <input v-model="newItemPrice" type="number" class="form-control" id="exampleInputAmount" placeholder="Pris">
                     </div>
                   </div>
-                <button @click="addItem()" class="btn btn-primary">Lägg till</button>
+                <button @click.prevent="addItem()" class="btn btn-primary">Lägg till</button>
               </div>
             </div>
             <table class="table table-striped">
               <thead>
                 <tr>
+                  <th>#</th>
                   <th>Vara</th>
                   <th>Pris</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(item, index) in items">
+                <tr v-for="(item, index) in items" @click="deleteItem(item, index)">
                   <td>{{ index + 1 }}</td>
                   <td>{{ item.name }}</td>
                   <td>{{ item.price }}</td>
                 </tr>
               </tbody>
-              <tfooter>
+              <tfoot>
                 <tr>
                   <th>Totalt:</th>
                   <th></th>
                   <th>{{ totalPrice }}</th>
                 </tr>
-              </tfooter>
+              </tfoot>
             </table>
           </div>
         </div>
@@ -73,17 +74,31 @@
       data: {
         items: [],
         newItem: '',
-        newItemPrice: ''
+        newItemPrice: '',
+        selected: ''
       },
 
       methods: {
         addItem() {
-          let item = {name: this.newItem, price: parseInt(this.newItemPrice) };
+          if (this.newItem.length == 0 || this.newItemPrice.length == 0) return
+          let item = { id: Math.floor(Date.now() / 100), name: this.newItem, price: parseInt(this.newItemPrice), selected: false };
           this.items.push(item);
           this.newItem = '';
           this.newItemPrice = '';
           localStorage.setItem("buy-list", JSON.stringify(this.items));
           console.log(JSON.parse(localStorage.getItem("buy-list")));
+        },
+
+        deleteItem(item, index) {
+          let answer = confirm("Vill du ta bort " + item.name + "?");
+          if (answer) {
+            this.items.splice(index, 1);
+            this.save();
+          }
+        },
+
+        save() {
+          localStorage.setItem("buy-list", JSON.stringify(this.items));
         }
       },
 
@@ -98,9 +113,8 @@
         let list = JSON.parse(localStorage.getItem("buy-list"))
         if (list == undefined) {
           this.items = []
-        }
-        else {
-          this.items = list
+        } else {
+          this.items = list;
         }
       }
     });
