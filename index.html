@@ -124,6 +124,14 @@
           }
         },
 
+        emptyList() {
+          let answer = confirm("Vill du rensa listan?");
+          if (answer) {
+            this.items = [];
+            this.save();
+          }
+        },
+
         save() {
           localStorage.setItem("buy-list", JSON.stringify(this.items));
         }
