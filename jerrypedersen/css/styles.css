@@ -1,0 +1,84 @@
+* {
+  color: white;
+  font-family: "vt323";
+  font-weight: normal;
+}
+
+body {
+  background-color: blue;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+}
+
+h1 {
+  color: yellow;
+  font-weight: normal;
+  font-size: 14vw;
+  text-decoration: underline;
+  margin-bottom: 16px;
+}
+
+h3 {
+  color: yellow;
+  font-size: 4vw;
+  margin: 0;
+  padding-left: 2vw;
+}
+
+.header {
+  color: yellow;
+  font-weight: normal;
+  margin: 0 auto;
+  width: 80%;
+  text-shadow: 0.05em 0.05em transparent, -0.05em -0.45em red,
+    0.1em 0.1em transparent, -0.1em -0.4em red, 0.15em 0.15em transparent,
+    -0.15em -0.45em red, 0.2em 0.2em transparent, -0.2em -0.2em red;
+}
+
+.spin {
+  color: inherit;
+  display: inline-block;
+  animation-name: spin;
+  animation-duration: 400ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate3d(1, 0, 0, 0deg);
+  }
+  50% {
+    transform: rotate3d(1, 0, 0, 90deg);
+  }
+
+  100% {
+    transform: rotate3d(1, 0, 0, 0deg);
+  }
+}
+
+p {
+  font-size: 3vw;
+}
+
+ol {
+  font-size: 3vw;
+  padding-left: 4vw;
+}
+
+ol a {
+  text-decoration: none;
+}
+
+ol a:hover {
+  background-color: white;
+  color: blue;
+  text-decoration: none;
+}
+
+.l-section {
+  margin: 0 auto;
+  width: 80%;
+}
