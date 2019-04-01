@@ -7,20 +7,23 @@
     <title>Document</title>
   </head>
   <body>
-    <script type="javascript">
-        function getUrlVars() {
-          var vars = {};
-          var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-              vars[key] = value;
-          });
-          return vars;
+    <script>
+      function getUrlVars() {
+        var vars = {};
+        var parts = window.location.href.replace(
+          /[?&]+([^=&]+)=([^&]*)/gi,
+          function(m, key, value) {
+            vars[key] = value;
+          }
+        );
+        return vars;
       }
 
-      let success = getUrlVars()['success']
+      let success = getUrlVars()["success"];
 
       if (success) {
         console.log("success");
-      }else {
+      } else {
         console.log("SUCCESS, FALSE");
       }
     </script>
